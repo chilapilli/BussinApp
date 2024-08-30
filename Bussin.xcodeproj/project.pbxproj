@@ -14,6 +14,21 @@
 		B4AF038F2C80D93C00286713 /* BussinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF038E2C80D93C00286713 /* BussinTests.swift */; };
 		B4AF03992C80D93C00286713 /* BussinUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF03982C80D93C00286713 /* BussinUITests.swift */; };
 		B4AF039B2C80D93C00286713 /* BussinUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF039A2C80D93C00286713 /* BussinUITestsLaunchTests.swift */; };
+		B4AF03AD2C80E3E600286713 /* LexendDeca-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4AF03AC2C80E3E600286713 /* LexendDeca-SemiBold.ttf */; };
+		B4AF03AE2C80E3E600286713 /* LexendDeca-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4AF03AC2C80E3E600286713 /* LexendDeca-SemiBold.ttf */; };
+		B4AF03AF2C80E3E600286713 /* LexendDeca-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4AF03AC2C80E3E600286713 /* LexendDeca-SemiBold.ttf */; };
+		B4AF03B12C80E41000286713 /* LexendDeca-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4AF03B02C80E41000286713 /* LexendDeca-Light.ttf */; };
+		B4AF03B22C80E41000286713 /* LexendDeca-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4AF03B02C80E41000286713 /* LexendDeca-Light.ttf */; };
+		B4AF03B32C80E41000286713 /* LexendDeca-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4AF03B02C80E41000286713 /* LexendDeca-Light.ttf */; };
+		B4AF03B82C80E8C900286713 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF03B72C80E8C900286713 /* View.swift */; };
+		B4AF03B92C80E8C900286713 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF03B72C80E8C900286713 /* View.swift */; };
+		B4AF03BA2C80E8C900286713 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF03B72C80E8C900286713 /* View.swift */; };
+		B4AF03BC2C80FC0600286713 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF03BB2C80FC0600286713 /* ViewModel.swift */; };
+		B4AF03BD2C80FC0600286713 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF03BB2C80FC0600286713 /* ViewModel.swift */; };
+		B4AF03BE2C80FC0600286713 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF03BB2C80FC0600286713 /* ViewModel.swift */; };
+		B4AF03C42C81DB3600286713 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF03C32C81DB3600286713 /* Model.swift */; };
+		B4AF03C52C81DB3600286713 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF03C32C81DB3600286713 /* Model.swift */; };
+		B4AF03C62C81DB3600286713 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF03C32C81DB3600286713 /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +59,12 @@
 		B4AF03942C80D93C00286713 /* BussinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BussinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4AF03982C80D93C00286713 /* BussinUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BussinUITests.swift; sourceTree = "<group>"; };
 		B4AF039A2C80D93C00286713 /* BussinUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BussinUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B4AF03AC2C80E3E600286713 /* LexendDeca-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-SemiBold.ttf"; sourceTree = "<group>"; };
+		B4AF03B02C80E41000286713 /* LexendDeca-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-Light.ttf"; sourceTree = "<group>"; };
+		B4AF03B42C80E48400286713 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B4AF03B72C80E8C900286713 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		B4AF03BB2C80FC0600286713 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		B4AF03C32C81DB3600286713 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +115,9 @@
 		B4AF037C2C80D93900286713 /* Bussin */ = {
 			isa = PBXGroup;
 			children = (
+				B4AF03B52C80E5C100286713 /* Features */,
+				B4AF03B42C80E48400286713 /* Info.plist */,
+				B4AF03AB2C80E37E00286713 /* CustomMaterials */,
 				B4AF037D2C80D93900286713 /* BussinApp.swift */,
 				B4AF037F2C80D93900286713 /* ContentView.swift */,
 				B4AF03812C80D93C00286713 /* Assets.xcassets */,
@@ -125,6 +149,33 @@
 				B4AF039A2C80D93C00286713 /* BussinUITestsLaunchTests.swift */,
 			);
 			path = BussinUITests;
+			sourceTree = "<group>";
+		};
+		B4AF03AB2C80E37E00286713 /* CustomMaterials */ = {
+			isa = PBXGroup;
+			children = (
+				B4AF03B02C80E41000286713 /* LexendDeca-Light.ttf */,
+				B4AF03AC2C80E3E600286713 /* LexendDeca-SemiBold.ttf */,
+			);
+			path = CustomMaterials;
+			sourceTree = "<group>";
+		};
+		B4AF03B52C80E5C100286713 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				B4AF03B62C80E5D600286713 /* SupplyLocation */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		B4AF03B62C80E5D600286713 /* SupplyLocation */ = {
+			isa = PBXGroup;
+			children = (
+				B4AF03B72C80E8C900286713 /* View.swift */,
+				B4AF03BB2C80FC0600286713 /* ViewModel.swift */,
+				B4AF03C32C81DB3600286713 /* Model.swift */,
+			);
+			path = SupplyLocation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +284,8 @@
 			files = (
 				B4AF03852C80D93C00286713 /* Preview Assets.xcassets in Resources */,
 				B4AF03822C80D93C00286713 /* Assets.xcassets in Resources */,
+				B4AF03B12C80E41000286713 /* LexendDeca-Light.ttf in Resources */,
+				B4AF03AD2C80E3E600286713 /* LexendDeca-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +293,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4AF03B22C80E41000286713 /* LexendDeca-Light.ttf in Resources */,
+				B4AF03AE2C80E3E600286713 /* LexendDeca-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +302,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4AF03B32C80E41000286713 /* LexendDeca-Light.ttf in Resources */,
+				B4AF03AF2C80E3E600286713 /* LexendDeca-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,8 +314,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4AF03C42C81DB3600286713 /* Model.swift in Sources */,
 				B4AF03802C80D93900286713 /* ContentView.swift in Sources */,
 				B4AF037E2C80D93900286713 /* BussinApp.swift in Sources */,
+				B4AF03BC2C80FC0600286713 /* ViewModel.swift in Sources */,
+				B4AF03B82C80E8C900286713 /* View.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,7 +326,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4AF03B92C80E8C900286713 /* View.swift in Sources */,
+				B4AF03BD2C80FC0600286713 /* ViewModel.swift in Sources */,
 				B4AF038F2C80D93C00286713 /* BussinTests.swift in Sources */,
+				B4AF03C52C81DB3600286713 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,8 +337,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4AF03C62C81DB3600286713 /* Model.swift in Sources */,
 				B4AF039B2C80D93C00286713 /* BussinUITestsLaunchTests.swift in Sources */,
 				B4AF03992C80D93C00286713 /* BussinUITests.swift in Sources */,
+				B4AF03BE2C80FC0600286713 /* ViewModel.swift in Sources */,
+				B4AF03BA2C80E8C900286713 /* View.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +491,8 @@
 				DEVELOPMENT_TEAM = DR2TLBVT47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bussin/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use your location to filter bus services for you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -454,6 +522,8 @@
 				DEVELOPMENT_TEAM = DR2TLBVT47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bussin/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use your location to filter bus services for you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

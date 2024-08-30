@@ -1,8 +1,121 @@
-//
-//  ViewModel.swift
-//  Bussin
-//
-//  Created by Matthew Tsang on 29/08/2024.
-//
+import SwiftUI
+import CoreLocation
 
-import Foundation
+class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+    
+    
+    @Published var UserLatitude: Double?
+    @Published var UserLongitude: Double?
+    @Published var AtcoAreaCode: String?
+    @AppStorage("AtcoAreaCode") private var storedAtcoAreaCode: String = ""
+    @AppStorage("UserLatitude") private var storedLatitude: Double = 0.0
+    @AppStorage("UserLongitude") private var storedLongitude: Double = 0.0
+    
+    private var locationManager: CLLocationManager?
+    @Published var userLocation: CLLocationCoordinate2D?
+    @Published var locationPermissionDenied: Bool = false
+
+
+    override init() {
+        super.init()
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+    }
+    
+    func requestLocation() {
+        locationManager?.requestWhenInUseAuthorization()
+        locationManager?.startUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            userLocation = location.coordinate
+            locationManager?.stopUpdatingLocation()
+            print("Location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+            UserLongitude = location.coordinate.longitude
+            UserLatitude = location.coordinate.latitude
+        }
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .denied, .restricted:
+            locationPermissionDenied = true
+        default:
+            locationPermissionDenied = false
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        if let cleError = error as? CLError, cleError.code == .denied {
+            locationPermissionDenied = true
+        }
+        print("Failed to get user location: \(error.localizedDescription)")
+    }
+    
+    func fetchLocationData(postcode: String? = nil, latitude: Double? = nil, longitude: Double? = nil, completion: @escaping (UserLocationModel?, Error?) -> Void) {
+        
+        print("fetch location is called")
+        
+        let urlString = postcode != nil ? "http://localhost:5000/location?postcode=\(postcode!)" : "http://localhost:5000/location?latitude=\(latitude!)&longitude=\(longitude!)"
+        
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL.")
+            completion(nil, NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL."]))
+            return
+        }
+        
+        print(url)
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            // Check for networking error
+            if let error = error {
+                print("Network error: \(error.localizedDescription)")
+                completion(nil, error)
+                return
+            }
+            
+            // Check the HTTP response status
+            if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+                print("HTTP error: Status code \(httpResponse.statusCode)")
+                let httpError = NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "HTTP error: Status code \(httpResponse.statusCode)"])
+                completion(nil, httpError)
+                return
+            }
+            
+            // Check if data exists
+            guard let data = data else {
+                print("No data received from server.")
+                let noDataError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No data received from server."])
+                completion(nil, noDataError)
+                return
+            }
+            
+            // Attempt to decode data
+            do {
+                let decoder = JSONDecoder()
+                print(String(data: data, encoding: .utf8))
+                let locationData = try decoder.decode(UserLocationModel.self, from: data)
+                // Call completion on the main thread
+                DispatchQueue.main.async {
+                    completion(locationData, nil)
+                }
+                
+                if let latitude = self.UserLatitude, let longitude = self.UserLongitude, let atcoCode = self.AtcoAreaCode {
+                    self.storedLatitude = locationData.latitude
+                    self.storedLongitude = locationData.longitude
+                    self.storedAtcoAreaCode = String(locationData.atcoAreaCode)
+                    }
+            } catch {
+                print("Decoding error: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+            }
+        }.resume()
+    }
+}
+
