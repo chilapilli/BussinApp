@@ -83,7 +83,7 @@ struct SearchBusLocationHomepageView: View {
                                 .frame(width: UIScreen.main.bounds.width, height: 220)
                         }
                         RecentQueryView()
-                        NearbyMapView()
+                        NearbyBusMapView()
                             
                     }
                 }
@@ -302,50 +302,50 @@ struct BusRoutesListView: View {
     }
 }
 
-struct NearbyMapView: View {
-    @AppStorage("UserLatitude") var centerLatitude: Double = 51.6908
-    @AppStorage("UserLongitude") var centerLongitude: Double = 0.206
-    
-    @State private var region: MKCoordinateRegion
-    
-    init() {
-        // Initialize the coordinate region with stored user location
-        let initialLocation = CLLocationCoordinate2D(
-            latitude: UserDefaults.standard.double(forKey: "UserLatitude"),
-            longitude: UserDefaults.standard.double(forKey: "UserLongitude")
-        )
-        _region = State(initialValue: MKCoordinateRegion(center: initialLocation, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)))
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Buses Near You")
-                .font(Font.custom("LexendDeca-SemiBold", size: 25))
-                .foregroundColor(.white)
-                .padding(.horizontal, 16)
-                .padding(.horizontal) // Padding to match other elements
-
-            ZStack {
-                // Background with rounded corners and material effect to match Recents style
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Material.thick)
-                    .shadow(radius: 5)
-
-                Map(coordinateRegion: $region, showsUserLocation: true, annotationItems: [UserAnnotation(coordinate: region.center)]) { item in
-                    MapAnnotation(coordinate: item.coordinate) {
-                        Image(systemName: "mappin.circle.fill")
-                            .foregroundColor(.red)
-                            .font(.title)
-                    }
-                }
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-            }
-            .frame(width: UIScreen.main.bounds.width - 40, height: 300)
-            .padding(.horizontal, 20) // Ensuring only the map is padded horizontally
-        }
-        
-    }
-}
+//struct NearbyMapView: View {
+//    @AppStorage("UserLatitude") var centerLatitude: Double = 51.6908
+//    @AppStorage("UserLongitude") var centerLongitude: Double = 0.206
+//    
+//    @State private var region: MKCoordinateRegion
+//    
+//    init() {
+//        // Initialize the coordinate region with stored user location
+//        let initialLocation = CLLocationCoordinate2D(
+//            latitude: UserDefaults.standard.double(forKey: "UserLatitude"),
+//            longitude: UserDefaults.standard.double(forKey: "UserLongitude")
+//        )
+//        _region = State(initialValue: MKCoordinateRegion(center: initialLocation, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)))
+//    }
+//    
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 16) {
+//            Text("Buses Near You")
+//                .font(Font.custom("LexendDeca-SemiBold", size: 25))
+//                .foregroundColor(.white)
+//                .padding(.horizontal, 16)
+//                .padding(.horizontal) // Padding to match other elements
+//
+//            ZStack {
+//                // Background with rounded corners and material effect to match Recents style
+//                RoundedRectangle(cornerRadius: 20)
+//                    .fill(Material.thick)
+//                    .shadow(radius: 5)
+//
+//                Map(coordinateRegion: $region, showsUserLocation: true, annotationItems: [UserAnnotation(coordinate: region.center)]) { item in
+//                    MapAnnotation(coordinate: item.coordinate) {
+//                        Image(systemName: "mappin.circle.fill")
+//                            .foregroundColor(.red)
+//                            .font(.title)
+//                    }
+//                }
+//                .clipShape(RoundedRectangle(cornerRadius: 20))
+//            }
+//            .frame(width: UIScreen.main.bounds.width - 40, height: 300)
+//            .padding(.horizontal, 20) // Ensuring only the map is padded horizontally
+//        }
+//        
+//    }
+//}
 
 // Helper struct for map annotations
 struct UserAnnotation: Identifiable {
