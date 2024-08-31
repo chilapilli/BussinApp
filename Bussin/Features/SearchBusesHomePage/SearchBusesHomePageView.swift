@@ -1,4 +1,5 @@
 import SwiftUI
+import MapKit
 
 struct SearchBusLocationHomepageView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode> // able to use custom buttons to go back in navigation stacks
@@ -16,18 +17,20 @@ struct SearchBusLocationHomepageView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(colors: [Color(#colorLiteral(red: 0.1545608342, green: 0.3511599302, blue: 0.4604178071, alpha: 1)), Color(#colorLiteral(red: 0.101461418, green: 0.2473823726, blue: 0.3194232881, alpha: 1))],
-                               startPoint: .topLeading,
-                               endPoint: .bottomTrailing)
-                    .ignoresSafeArea()
+//                LinearGradient(colors: [Color(#colorLiteral(red: 0.1545608342, green: 0.3511599302, blue: 0.4604178071, alpha: 1)), Color(#colorLiteral(red: 0.101461418, green: 0.2473823726, blue: 0.3194232881, alpha: 1))],
+//                               startPoint: .topLeading,
+//                               endPoint: .bottomTrailing)
+//                    .ignoresSafeArea()
 
-                VStack {
+                LinearGradient(colors: [Color.brown, Color.gray], startPoint: UnitPoint.top, endPoint: UnitPoint.bottom)
+                    .ignoresSafeArea()
+                
+                VStack (spacing: 0){
 
                     ZStack {
-
                         // Brown RoundedRectangle background
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundStyle(Material.thin)
+                            .foregroundStyle(Material.thick)
                             .frame(width: UIScreen.main.bounds.width, height: 150)
 
                         // Text and Button on top of the yellow background
@@ -43,9 +46,9 @@ struct SearchBusLocationHomepageView: View {
                                 RoundedRectangle(cornerRadius: 16)
                                     .stroke(Color.white, lineWidth: 5)
                                     .fill(Color.brown)
-                                    .frame(width: 250, height: 40)
+                                    .frame(width: 280, height: 40)
                                     .overlay(
-                                        Text("Search Somewhere Else")
+                                        Text("Looking for somewhere else?")
                                             .font(Font.custom("LexendDeca-Light", size: 16))
                                             .fontWeight(.medium)
                                             .foregroundColor(Color.white)
@@ -57,9 +60,10 @@ struct SearchBusLocationHomepageView: View {
                         .padding(.top, 30)
                     }.ignoresSafeArea()
 
-                    Spacer()
-
-                    VStack { // Searchable TextField with a magnifying glass icon
+                    ScrollView { // Searchable TextField with a magnifying glass icon
+                        
+                        
+                            
                         HStack {
                             Image(systemName: "magnifyingglass")
                                 .foregroundColor(.gray)
@@ -71,16 +75,16 @@ struct SearchBusLocationHomepageView: View {
                         .background(Color.white.opacity(0.88))
                         .cornerRadius(8)
                         .padding(.horizontal, 20)
-                        .padding(.top, -40)
+                        
 
                         // Show the list only when the user starts typing
                         if !viewModel.searchText.isEmpty {
                             BusRoutesListView(busRoutes: viewModel.filteredRoutes, saveRecent: saveRecentRoute)
                                 .frame(width: UIScreen.main.bounds.width, height: 220)
-                        } else {
-                            RecentQueryView()
                         }
-                        Spacer()
+                        RecentQueryView()
+                        NearbyMapView()
+                            
                     }
                 }
                 .navigationBarHidden(true)
@@ -148,7 +152,7 @@ struct RecentQueryView: View {
         let routes = loadRecentRoutes()
         
         VStack(alignment: .leading, spacing: 10) {
-            // Header
+            
             HStack {
                 Image(systemName: "clock")
                     .resizable()
@@ -231,7 +235,7 @@ struct RecentRouteCard: View {
         .background(Color.white.opacity(0.9))
         .cornerRadius(15)
         .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
-        .padding(.horizontal)
+
         .padding(.vertical, 5)
     }
 }
@@ -278,7 +282,7 @@ struct BusRoutesListView: View {
                             }
                         }
                     }
-                    .scrollIndicators(.hidden)
+//                    .scrollIndicators(.hidden)
                 }
                 .background(Color.clear)
                 .cornerRadius(12)
@@ -298,6 +302,60 @@ struct BusRoutesListView: View {
     }
 }
 
+struct NearbyMapView: View {
+    @AppStorage("UserLatitude") var centerLatitude: Double = 51.6908
+    @AppStorage("UserLongitude") var centerLongitude: Double = 0.206
+    
+    @State private var region: MKCoordinateRegion
+    
+    init() {
+        // Initialize the coordinate region with stored user location
+        let initialLocation = CLLocationCoordinate2D(
+            latitude: UserDefaults.standard.double(forKey: "UserLatitude"),
+            longitude: UserDefaults.standard.double(forKey: "UserLongitude")
+        )
+        _region = State(initialValue: MKCoordinateRegion(center: initialLocation, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)))
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Buses Near You")
+                .font(Font.custom("LexendDeca-SemiBold", size: 25))
+                .foregroundColor(.white)
+                .padding(.horizontal, 16)
+                .padding(.horizontal) // Padding to match other elements
+
+            ZStack {
+                // Background with rounded corners and material effect to match Recents style
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Material.thick)
+                    .shadow(radius: 5)
+
+                Map(coordinateRegion: $region, showsUserLocation: true, annotationItems: [UserAnnotation(coordinate: region.center)]) { item in
+                    MapAnnotation(coordinate: item.coordinate) {
+                        Image(systemName: "mappin.circle.fill")
+                            .foregroundColor(.red)
+                            .font(.title)
+                    }
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+            }
+            .frame(width: UIScreen.main.bounds.width - 40, height: 300)
+            .padding(.horizontal, 20) // Ensuring only the map is padded horizontally
+        }
+        
+    }
+}
+
+// Helper struct for map annotations
+struct UserAnnotation: Identifiable {
+    let id = UUID()
+    var coordinate: CLLocationCoordinate2D
+}
+
 #Preview {
     SearchBusLocationHomepageView()
 }
+
+
+// todo - reformat python api to make an endpoint for bus location data by boudning box 
