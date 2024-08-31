@@ -9,17 +9,9 @@ import SwiftUI
 
 // Mark: Main Screen
 struct SupplyLocationView: View {
-    
     /*
      Displayed when user first launches the app/ chooses to change location
      */
-    
-    @AppStorage("AtcoAreaCode") private var storedAtcoAreaCode: String = ""
-    @AppStorage("UserLatitude") private var storedLatitude: Double = 0.0
-    @AppStorage("UserLongitude") private var storedLongitude: Double = 0.0
-    
-    
-    
     @State private var userPostcode: String = "" // for storing the user postcode in the text field
     
     @State private var showLocationUnavailableSheet: Bool = false // for popup sheet
@@ -27,6 +19,7 @@ struct SupplyLocationView: View {
     @State private var isLoadingPostcode: Bool = false
     @State private var isServiceDisabled: Bool = false // when the location detected is outside the UK, disable location button
     @State private var isUserLocationLoaded: Bool = false // disable both buttons when loaction loaded
+    @State private var isNavigating: Bool = false // State for managing navigation
         
     @StateObject private var viewModel = LocationViewModel() // core module use to get user location
     
@@ -36,95 +29,108 @@ struct SupplyLocationView: View {
     
     var body: some View {
     
-        ZStack {
-        
-            GradientBackgroundView()
-    
-            VStack(alignment: .center, spacing: 10) {
-                Spacer()
+        NavigationStack {
+            ZStack {
             
-                BusImageView()
-                TitleTextView(titleText: $titleText)
-                TaglineTextView(tagLineText: $tagLineText)
+                GradientBackgroundView()
+        
+                VStack(alignment: .center, spacing: 10) {
+                    Spacer()
                 
-                Spacer()
-                
-                ShareLocationButton(
-                    locViewModel: viewModel,
-                    isLoadingLocation: $isLoadingLocation,
-                    showLocationUnavailableSheet: $showLocationUnavailableSheet,
-                    isServiceDisabled: $isServiceDisabled,
-                    isUserLocationLoaded: $isUserLocationLoaded
-                )
-                .sheet(
-                    isPresented: $showLocationUnavailableSheet,
-                    onDismiss: {
-                        isServiceDisabled = true // Ensure that the service is still marked as disabled when the sheet is dismissed
-                    },
-                    content: {
-                        ContentUnavailableView(
-                            "Service Unavailable",
-                            systemImage: "location.slash",
-                            description: Text("Support for non-UK locations are unavailable.")
-                        )
-                    }
-    
-                )
-                PostcodeTextField(locViewModel: viewModel,
-                                  userPostcode: $userPostcode,
-                                  isLoadingPostcode: $isLoadingPostcode,
-                                  showLocationUnavailableSheet: $showLocationUnavailableSheet,
-                                  isUserLocationLoaded: $isUserLocationLoaded )
-                .sheet(
-                    isPresented: $showLocationUnavailableSheet,
-                    onDismiss: {
-                        isServiceDisabled = false // so that user can still use the current location button
-                    },
-                    content: {
-                        ContentUnavailableView(
-                            "Invalid Location",
-                            systemImage: "location.slash",
-                            description: Text("Try again with a valid postcode.")
-                        )
-                    }
-                )
-            }
-            .padding()
-            .padding(.top)
-            .alert(isPresented: $viewModel.locationPermissionDenied) {
-                Alert(
-                    title: Text("Location Access Denied"),
-                    message: Text("Please enable location services for this app in Settings. Go to Settings > Privacy > Location Services > Your App."),
-                    primaryButton: .default(Text("Open Settings")) {
-                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                            if UIApplication.shared.canOpenURL(url) {
-                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    BusImageView()
+                    TitleTextView(titleText: $titleText)
+                    TaglineTextView(tagLineText: $tagLineText)
+                    
+                    Spacer()
+                    
+                    ShareLocationButton(
+                        locViewModel: viewModel,
+                        isLoadingLocation: $isLoadingLocation,
+                        showLocationUnavailableSheet: $showLocationUnavailableSheet,
+                        isServiceDisabled: $isServiceDisabled,
+                        isUserLocationLoaded: $isUserLocationLoaded
+                    )
+                    .sheet(
+                        isPresented: $showLocationUnavailableSheet,
+                        onDismiss: {
+                            isServiceDisabled = true // Ensure that the service is still marked as disabled when the sheet is dismissed
+                        },
+                        content: {
+                            ContentUnavailableView(
+                                "Service Unavailable",
+                                systemImage: "location.slash",
+                                description: Text("Support for non-UK locations are unavailable.")
+                            )
+                        }
+        
+                    )
+                    PostcodeTextField(locViewModel: viewModel,
+                                      userPostcode: $userPostcode,
+                                      isLoadingPostcode: $isLoadingPostcode,
+                                      showLocationUnavailableSheet: $showLocationUnavailableSheet,
+                                      isUserLocationLoaded: $isUserLocationLoaded )
+                    .sheet(
+                        isPresented: $showLocationUnavailableSheet,
+                        onDismiss: {
+                            isServiceDisabled = false // so that user can still use the current location button
+                        },
+                        content: {
+                            ContentUnavailableView(
+                                "Invalid Location",
+                                systemImage: "location.slash",
+                                description: Text("Try again with a valid postcode.")
+                            )
+                        }
+                    )
+                }
+                .padding()
+                .padding(.top)
+                .alert(isPresented: $viewModel.locationPermissionDenied) {
+                    Alert(
+                        title: Text("Location Access Denied"),
+                        message: Text("Please enable location services for this app in Settings. Go to Settings > Privacy > Location Services > Your App."),
+                        primaryButton: .default(Text("Open Settings")) {
+                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                if UIApplication.shared.canOpenURL(url) {
+                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                }
+                            }
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
+                .onChange(of: isUserLocationLoaded) { _ in
+                        if isUserLocationLoaded {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                isNavigating = true
                             }
                         }
-                    },
-                    secondaryButton: .cancel()
-                )
+                    }
+                .navigationDestination(isPresented: $isNavigating) {
+                    SearchBusLocationHomepageView()
+                }
             }
         }
-    }
-}
-
+            }
+        }
+    
 // MARK: - Components
 
 struct BusImageView: View {
-    @State private var imageScale: CGFloat = 0.8
-    
+    @State private var imageScale: CGFloat = 1.0 // Start at the final scale
+    @State private var shouldAnimate: Bool = false
+
     var body: some View {
         Image(systemName: "bus.doubledecker.fill")
             .resizable()
             .scaledToFit()
             .foregroundColor(.black)
             .frame(width: 100, height: 100)
-            .scaleEffect(imageScale)
+            .scaleEffect(shouldAnimate ? 1.0 : 0.8) // Set the starting scale smaller
             .shadow(radius: 4)
-            .animation(.interpolatingSpring(stiffness: 100, damping: 5).delay(0.2), value: imageScale)
+            .animation(shouldAnimate ? .interpolatingSpring(stiffness: 100, damping: 5).delay(0.2) : .none, value: shouldAnimate)
             .onAppear {
-                imageScale = 1.0
+                shouldAnimate = true // Trigger the animation when view appears
             }
     }
 }
@@ -172,7 +178,6 @@ struct ShareLocationButton: View {
     @State private var locationData: UserLocationModel? // To store fetched location data
     @State private var isLocationLoaded: Bool = false
     @Binding var isUserLocationLoaded: Bool
-    @State private var isWobbling: Bool = false // State for wobble effect
 
     var body: some View {
         VStack {
@@ -202,11 +207,6 @@ struct ShareLocationButton: View {
             isLoadingLocation = false
             fetchLocationIfPossible()
         }
-        .onChange(of: isLocationLoaded) { loaded in
-            if loaded {
-                isWobbling = true // Trigger wobble effect after location is loaded
-            }
-        }
     }
     
     // Function to fetch location data when latitude and longitude are both available
@@ -218,6 +218,8 @@ struct ShareLocationButton: View {
                 isLoadingLocation = false
                 isLocationLoaded = true
                 isUserLocationLoaded = true
+
+                
             } else if let error = error {
                 print("Error fetching location: \(error.localizedDescription)")
                 isLoadingLocation = false
@@ -377,5 +379,9 @@ struct PostcodeTextField: View {
 }
 
 #Preview {
+
     SupplyLocationView()
+    
 }
+
+

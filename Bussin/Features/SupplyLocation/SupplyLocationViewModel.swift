@@ -7,9 +7,12 @@ class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var UserLatitude: Double?
     @Published var UserLongitude: Double?
     @Published var AtcoAreaCode: String?
-    @AppStorage("AtcoAreaCode") private var storedAtcoAreaCode: String = ""
-    @AppStorage("UserLatitude") private var storedLatitude: Double = 0.0
-    @AppStorage("UserLongitude") private var storedLongitude: Double = 0.0
+    @Published var UserLocation: String?
+    @AppStorage("AtcoAreaCode") var storedAtcoAreaCode: String = ""
+    @AppStorage("UserLatitude") var storedLatitude: Double = 0.0
+    @AppStorage("UserLongitude") var storedLongitude: Double = 0.0
+    @AppStorage("UserRegion") var storedRegion: String = ""
+    @AppStorage("UserPostcode") var storedPostcode: String = ""
     
     private var locationManager: CLLocationManager?
     @Published var userLocation: CLLocationCoordinate2D?
@@ -32,8 +35,8 @@ class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             userLocation = location.coordinate
             locationManager?.stopUpdatingLocation()
             print("Location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
-            UserLongitude = location.coordinate.longitude
-            UserLatitude = location.coordinate.latitude
+            storedLongitude = location.coordinate.longitude
+            storedLatitude = location.coordinate.latitude
         }
     }
     
@@ -97,18 +100,17 @@ class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             // Attempt to decode data
             do {
                 let decoder = JSONDecoder()
-                print(String(data: data, encoding: .utf8))
+                print(String(data: data, encoding: .utf8) ?? "An Error has occured.")
                 let locationData = try decoder.decode(UserLocationModel.self, from: data)
                 // Call completion on the main thread
                 DispatchQueue.main.async {
                     completion(locationData, nil)
-                }
-                
-                if let latitude = self.UserLatitude, let longitude = self.UserLongitude, let atcoCode = self.AtcoAreaCode {
                     self.storedLatitude = locationData.latitude
                     self.storedLongitude = locationData.longitude
                     self.storedAtcoAreaCode = String(locationData.atcoAreaCode)
-                    }
+                    self.storedRegion = locationData.name
+                    self.storedPostcode = locationData.postcode
+                }
             } catch {
                 print("Decoding error: \(error.localizedDescription)")
                 DispatchQueue.main.async {
@@ -118,4 +120,3 @@ class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }.resume()
     }
 }
-

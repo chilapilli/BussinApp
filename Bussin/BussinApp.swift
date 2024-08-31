@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import Combine
+
 
 @main
 struct BussinApp: App {
     var body: some Scene {
         WindowGroup {
             SupplyLocationView()
+            
         }
     }
 }
