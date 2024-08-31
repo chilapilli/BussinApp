@@ -12,6 +12,7 @@ struct SupplyLocationView: View {
     /*
      Displayed when user first launches the app/ chooses to change location
      */
+    @AppStorage("IsUserLocationLoaded") var isLocationLoadedToAppStorage = false
     @State private var userPostcode: String = "" // for storing the user postcode in the text field
     
     @State private var showLocationUnavailableSheet: Bool = false // for popup sheet
@@ -29,7 +30,7 @@ struct SupplyLocationView: View {
     
     var body: some View {
     
-        NavigationStack {
+        
             ZStack {
             
                 GradientBackgroundView()
@@ -102,6 +103,7 @@ struct SupplyLocationView: View {
                 .onChange(of: isUserLocationLoaded) { _ in
                         if isUserLocationLoaded {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                isLocationLoadedToAppStorage = true
                                 isNavigating = true
                             }
                         }
@@ -111,8 +113,8 @@ struct SupplyLocationView: View {
                 }
             }
         }
-            }
-        }
+            
+    }
     
 // MARK: - Components
 
@@ -182,9 +184,11 @@ struct ShareLocationButton: View {
     var body: some View {
         VStack {
             Button(action: {
+                isLoadingLocation = true
                 locViewModel.requestLocation() // Request the current location
+                
             }) {
-                if isLoadingLocation {
+                if isLoadingLocation && !isLocationLoaded {
                     LoadingButtonView()
                 } else if showLocationUnavailableSheet || isServiceDisabled {
                     UnavailableButtonView()
@@ -199,12 +203,10 @@ struct ShareLocationButton: View {
         }
         .onReceive(locViewModel.$UserLatitude) { newLatitude in
             userLatitude = newLatitude
-            isLoadingLocation = true
             fetchLocationIfPossible()
         }
         .onReceive(locViewModel.$UserLongitude) { newLongitude in
             userLongitude = newLongitude
-            isLoadingLocation = false
             fetchLocationIfPossible()
         }
     }
@@ -212,6 +214,8 @@ struct ShareLocationButton: View {
     // Function to fetch location data when latitude and longitude are both available
     private func fetchLocationIfPossible() {
         guard let latitude = userLatitude, let longitude = userLongitude else { return }
+        
+        print("")
         locViewModel.fetchLocationData(latitude: latitude, longitude: longitude) { location, error in
             if let location = location {
                 locationData = location

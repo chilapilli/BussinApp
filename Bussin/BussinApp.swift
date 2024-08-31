@@ -11,10 +11,20 @@ import Combine
 
 @main
 struct BussinApp: App {
+    
+    @AppStorage("IsUserLocationLoaded") var userLocationLoaded: Bool = false 
+    
     var body: some Scene {
         WindowGroup {
-            SupplyLocationView()
-            
+            NavigationStack{
+                
+                if !userLocationLoaded{
+                    SupplyLocationView()
+                } else {
+                    SearchBusLocationHomepageView()
+                    
+                }
+            }
         }
     }
 }

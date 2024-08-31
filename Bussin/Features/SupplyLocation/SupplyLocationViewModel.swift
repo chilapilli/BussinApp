@@ -35,6 +35,8 @@ class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             userLocation = location.coordinate
             locationManager?.stopUpdatingLocation()
             print("Location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+            UserLatitude = location.coordinate.latitude
+            UserLongitude = location.coordinate.longitude
             storedLongitude = location.coordinate.longitude
             storedLatitude = location.coordinate.latitude
         }

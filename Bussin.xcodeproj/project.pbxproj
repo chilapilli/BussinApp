@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4141DA72C83525E00EF38E5 /* SearchBusesHomePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4141DA62C83525E00EF38E5 /* SearchBusesHomePageViewModel.swift */; };
+		B4141DA92C83526800EF38E5 /* SearchBusesHomePageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4141DA82C83526800EF38E5 /* SearchBusesHomePageModel.swift */; };
 		B46EB10F2C82A9D100DF4AAA /* SearchBusesHomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46EB10E2C82A9D100DF4AAA /* SearchBusesHomePageView.swift */; };
 		B4AF037E2C80D93900286713 /* BussinApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF037D2C80D93900286713 /* BussinApp.swift */; };
 		B4AF03802C80D93900286713 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF037F2C80D93900286713 /* ContentView.swift */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B4141DA62C83525E00EF38E5 /* SearchBusesHomePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBusesHomePageViewModel.swift; sourceTree = "<group>"; };
+		B4141DA82C83526800EF38E5 /* SearchBusesHomePageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBusesHomePageModel.swift; sourceTree = "<group>"; };
 		B46EB10E2C82A9D100DF4AAA /* SearchBusesHomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBusesHomePageView.swift; sourceTree = "<group>"; };
 		B4AF037A2C80D93900286713 /* Bussin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bussin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4AF037D2C80D93900286713 /* BussinApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BussinApp.swift; sourceTree = "<group>"; };
@@ -115,6 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				B46EB10E2C82A9D100DF4AAA /* SearchBusesHomePageView.swift */,
+				B4141DA62C83525E00EF38E5 /* SearchBusesHomePageViewModel.swift */,
+				B4141DA82C83526800EF38E5 /* SearchBusesHomePageModel.swift */,
 			);
 			path = SearchBusesHomePage;
 			sourceTree = "<group>";
@@ -191,12 +197,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4141DA92C83526800EF38E5 /* SearchBusesHomePageModel.swift in Sources */,
 				B4AF03C42C81DB3600286713 /* SupplyLocationModel.swift in Sources */,
 				B4AF03802C80D93900286713 /* ContentView.swift in Sources */,
 				B4AF037E2C80D93900286713 /* BussinApp.swift in Sources */,
 				B4AF03BC2C80FC0600286713 /* SupplyLocationViewModel.swift in Sources */,
 				B4AF03B82C80E8C900286713 /* SupplyLocationView.swift in Sources */,
 				B46EB10F2C82A9D100DF4AAA /* SearchBusesHomePageView.swift in Sources */,
+				B4141DA72C83525E00EF38E5 /* SearchBusesHomePageViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,7 +263,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -312,7 +320,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
