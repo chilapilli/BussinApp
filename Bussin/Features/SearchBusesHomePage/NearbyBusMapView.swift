@@ -93,10 +93,19 @@ struct NearbyBusMapView: View {
                     } else if dataService.buses.isEmpty {
                         CardViewWhenUnavailable(unavailableText: $noBusText, unavailableImageName: $noBusIcon)
                     } else {
+                        
+                        
                         ForEach(dataService.buses, id: \.vehicleUniqueId) { bus in
-                            BusCardView(bus: bus)
-                                .frame(width: UIScreen.main.bounds.width - 40, height: 150) // Define the width here
-                                .padding(.vertical, 10) // Add some vertical padding for better look
+                            let route: BusRoute = BusRoute(lineId: bus.publishedLineName, operatorName: "", operatorNoc: bus.operatorRouteRef)
+                            NavigationLink(destination: RouteDetailView(route: route)) {
+                                BusCardView(bus: bus)
+                                    .frame(width: UIScreen.main.bounds.width - 40, height: 150) // Define the width here
+                                    .padding(.vertical, 10) // Add some vertical padding for better look
+                            }
+                            
+//                            BusCardView(bus: bus)
+//                                .frame(width: UIScreen.main.bounds.width - 40, height: 150) // Define the width here
+//                                .padding(.vertical, 10) // Add some vertical padding for better look
                         }
                     }
                 }
@@ -185,37 +194,72 @@ struct SelectedBusView: View {
                 .frame(width: 20, height: 20)
                 .foregroundColor(.blue)
             
-            VStack(spacing: 2) {
-                Text(bus.publishedLineName)
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(.white)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                
-                Text(bus.destinationName)
-                    .font(.system(size: 10))
-                    .foregroundColor(.white)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                
-                if bus.recordedMinutesAgo == 0 {
-                    Text("Now")
-                        .font(.system(size: 8))
+            let route: BusRoute = BusRoute(lineId: bus.publishedLineName, operatorName: "", operatorNoc: bus.operatorRouteRef)
+            NavigationLink(destination: RouteDetailView(route: route)) {
+                VStack(spacing: 2) {
+                    Text(bus.publishedLineName)
+                        .font(.system(size: 13, weight: .bold))
                         .foregroundColor(.white)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                     
-                } else{
-                    Text("\(bus.recordedMinutesAgo) minutes ago")
-                        .font(.system(size: 8))
+                    Text(bus.destinationName)
+                        .font(.system(size: 10))
                         .foregroundColor(.white)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
+                    
+                    if bus.recordedMinutesAgo == 0 {
+                        Text("Now")
+                            .font(.system(size: 8))
+                            .foregroundColor(.white)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                        
+                    } else{
+                        Text("\(bus.recordedMinutesAgo) minutes ago")
+                            .font(.system(size: 8))
+                            .foregroundColor(.white)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                    }
                 }
+                .padding(6)
+                .background(Color.blue.opacity(0.8))
+                .cornerRadius(8)
             }
-            .padding(6)
-            .background(Color.blue.opacity(0.8))
-            .cornerRadius(8)
+            
+//            VStack(spacing: 2) {
+//                Text(bus.publishedLineName)
+//                    .font(.system(size: 13, weight: .bold))
+//                    .foregroundColor(.white)
+//                    .lineLimit(1)
+//                    .minimumScaleFactor(0.5)
+//                
+//                Text(bus.destinationName)
+//                    .font(.system(size: 10))
+//                    .foregroundColor(.white)
+//                    .lineLimit(1)
+//                    .minimumScaleFactor(0.5)
+//                
+//                if bus.recordedMinutesAgo == 0 {
+//                    Text("Now")
+//                        .font(.system(size: 8))
+//                        .foregroundColor(.white)
+//                        .lineLimit(1)
+//                        .minimumScaleFactor(0.5)
+//                    
+//                } else{
+//                    Text("\(bus.recordedMinutesAgo) minutes ago")
+//                        .font(.system(size: 8))
+//                        .foregroundColor(.white)
+//                        .lineLimit(1)
+//                        .minimumScaleFactor(0.5)
+//                }
+//            }
+//            .padding(6)
+//            .background(Color.blue.opacity(0.8))
+//            .cornerRadius(8)
         }
         .padding(4)
         .background(Color.white)
@@ -303,7 +347,7 @@ struct CardViewWhenUnavailable: View {
                 }
                 .padding()
             }
-            .frame(width: geometry.size.width)
+            .frame(width: UIScreen.main.bounds.width - 40, height: 150)
             .background(
                 RoundedRectangle(cornerRadius: 15)
                     .fill(LinearGradient(gradient: Gradient(colors: [Color.white, Color.blue.opacity(0.05)]), startPoint: .topLeading, endPoint: .bottomTrailing))

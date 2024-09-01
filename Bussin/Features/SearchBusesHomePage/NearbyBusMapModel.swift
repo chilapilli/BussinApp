@@ -15,6 +15,7 @@ struct Bus: Identifiable, Codable {
     let recordedAtTime: String
     let directionRef: String
     let publishedLineName: String
+    let operatorRouteRef: String
     let vehicleUniqueId: String
     let latitude: Double
     let longitude: Double
@@ -29,6 +30,7 @@ struct Bus: Identifiable, Codable {
         case recordedAtTime = "recorded_at_time"
         case directionRef = "direction_ref"
         case publishedLineName = "published_line_name"
+        case operatorRouteRef = "operator_ref"
         case vehicleUniqueId = "vehicle_unique_id"
         case latitude
         case longitude

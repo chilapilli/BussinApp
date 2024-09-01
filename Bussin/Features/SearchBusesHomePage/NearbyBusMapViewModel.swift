@@ -15,6 +15,7 @@ class BusDataService: ObservableObject {
     
     func fetchBuses(minLat: Double, minLon: Double, maxLat: Double, maxLon: Double) {
         let urlString = "http://localhost:5000/vehicle_location_bounding_box?min_lat=\(minLat)&min_lon=\(minLon)&max_lat=\(maxLat)&max_lon=\(maxLon)"
+            print(urlString)
         
         guard let url = URL(string: urlString) else {
             print("Invalid URL.")
