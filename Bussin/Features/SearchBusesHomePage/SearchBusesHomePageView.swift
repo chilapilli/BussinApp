@@ -82,8 +82,10 @@ struct SearchBusLocationHomepageView: View {
                             BusRoutesListView(busRoutes: viewModel.filteredRoutes, saveRecent: saveRecentRoute)
                                 .frame(width: UIScreen.main.bounds.width, height: 220)
                         }
+                        
                         RecentQueryView()
                         NearbyBusMapView()
+                        TipsView()
                             
                     }
                 }
@@ -168,7 +170,7 @@ struct RecentQueryView: View {
                 
                 Spacer()
             }
-            .padding(.top)
+            .padding(.top, 3)
             
             // Display recent routes or a message if there are none
             if routes.isEmpty {
@@ -302,56 +304,75 @@ struct BusRoutesListView: View {
     }
 }
 
-//struct NearbyMapView: View {
-//    @AppStorage("UserLatitude") var centerLatitude: Double = 51.6908
-//    @AppStorage("UserLongitude") var centerLongitude: Double = 0.206
-//    
-//    @State private var region: MKCoordinateRegion
-//    
-//    init() {
-//        // Initialize the coordinate region with stored user location
-//        let initialLocation = CLLocationCoordinate2D(
-//            latitude: UserDefaults.standard.double(forKey: "UserLatitude"),
-//            longitude: UserDefaults.standard.double(forKey: "UserLongitude")
-//        )
-//        _region = State(initialValue: MKCoordinateRegion(center: initialLocation, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)))
-//    }
-//    
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 16) {
-//            Text("Buses Near You")
-//                .font(Font.custom("LexendDeca-SemiBold", size: 25))
-//                .foregroundColor(.white)
-//                .padding(.horizontal, 16)
-//                .padding(.horizontal) // Padding to match other elements
-//
-//            ZStack {
-//                // Background with rounded corners and material effect to match Recents style
-//                RoundedRectangle(cornerRadius: 20)
-//                    .fill(Material.thick)
-//                    .shadow(radius: 5)
-//
-//                Map(coordinateRegion: $region, showsUserLocation: true, annotationItems: [UserAnnotation(coordinate: region.center)]) { item in
-//                    MapAnnotation(coordinate: item.coordinate) {
-//                        Image(systemName: "mappin.circle.fill")
-//                            .foregroundColor(.red)
-//                            .font(.title)
-//                    }
-//                }
-//                .clipShape(RoundedRectangle(cornerRadius: 20))
-//            }
-//            .frame(width: UIScreen.main.bounds.width - 40, height: 300)
-//            .padding(.horizontal, 20) // Ensuring only the map is padded horizontally
-//        }
-//        
-//    }
-//}
+
 
 // Helper struct for map annotations
 struct UserAnnotation: Identifiable {
     let id = UUID()
     var coordinate: CLLocationCoordinate2D
 }
+
+import SwiftUI
+
+struct TipsView: View {
+    var body: some View {
+        let tips: [String] = [
+            "Move the map to refresh buses.",
+            "Tap a bus icon for details.",
+            "No buses? Try zooming out.",
+            "Traffic looks bad around the bus? It'd probably be late."
+        ]
+        
+        VStack(alignment: .leading, spacing: 16) {
+            // Title with Icon
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Image(systemName: "info.circle.fill")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(.white)
+                        .opacity(0.9)
+                        .padding(.leading, 8)
+                    
+                    Text("Tips")
+                        .font(Font.custom("LexendDeca-SemiBold", size: 26))
+                        .foregroundColor(.white)
+                        .opacity(0.9)
+                    
+                    Spacer() // Keeps the title aligned left
+                }
+                .padding(.top, 8)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 16)
+
+                // Tips List
+                VStack(alignment: .leading, spacing: 12) {
+                    ForEach(tips, id: \.self) { tip in
+                        Text("• \(tip)")
+                            .font(Font.custom("LexendDeca-SemiBold", size: 16))
+                            .foregroundColor(.white)
+                            .opacity(0.9)
+                            .padding(.leading, 24)
+                    }
+                }
+                .padding(.bottom)
+            }
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [Color.pink.opacity(0.6), Color("SecondaryColor").opacity(0.7)]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .cornerRadius(20)
+//            .padding(.horizontal, 16)
+            .shadow(color: Color.black.opacity(0.4), radius: 10, x: 0, y: 5)
+        }
+        .padding()
+        .padding(.top, -10)
+    }
+}
+
 
 #Preview {
     SearchBusLocationHomepageView()

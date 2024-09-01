@@ -7,5 +7,10 @@
 		<string>LexendDeca-Light.ttf</string>
 		<string>LexendDeca-SemiBold.ttf</string>
 	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UILaunchScreen</key>
+		<string>LaunchScreenView</string>
+	</dict>
 </dict>
 </plist>
