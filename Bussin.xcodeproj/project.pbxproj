@@ -12,6 +12,9 @@
 		B4141DAB2C83C86F00EF38E5 /* NearbyBusMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4141DAA2C83C86F00EF38E5 /* NearbyBusMapModel.swift */; };
 		B4141DAD2C83C9B300EF38E5 /* NearbyBusMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4141DAC2C83C9B300EF38E5 /* NearbyBusMapViewModel.swift */; };
 		B4141DAF2C83CA2400EF38E5 /* NearbyBusMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4141DAE2C83CA2400EF38E5 /* NearbyBusMapView.swift */; };
+		B46014D42C84D4A70053E05C /* BusTimetableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46014D32C84D4A70053E05C /* BusTimetableView.swift */; };
+		B46014D62C84D4B30053E05C /* BusTimetableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46014D52C84D4B30053E05C /* BusTimetableModel.swift */; };
+		B46014D82C84D4BF0053E05C /* BusTimetableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46014D72C84D4BF0053E05C /* BusTimetableViewModel.swift */; };
 		B46EB10F2C82A9D100DF4AAA /* SearchBusesHomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46EB10E2C82A9D100DF4AAA /* SearchBusesHomePageView.swift */; };
 		B4AF037E2C80D93900286713 /* BussinApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF037D2C80D93900286713 /* BussinApp.swift */; };
 		B4AF03802C80D93900286713 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF037F2C80D93900286713 /* ContentView.swift */; };
@@ -31,6 +34,9 @@
 		B4141DAA2C83C86F00EF38E5 /* NearbyBusMapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyBusMapModel.swift; sourceTree = "<group>"; };
 		B4141DAC2C83C9B300EF38E5 /* NearbyBusMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyBusMapViewModel.swift; sourceTree = "<group>"; };
 		B4141DAE2C83CA2400EF38E5 /* NearbyBusMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyBusMapView.swift; sourceTree = "<group>"; };
+		B46014D32C84D4A70053E05C /* BusTimetableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusTimetableView.swift; sourceTree = "<group>"; };
+		B46014D52C84D4B30053E05C /* BusTimetableModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusTimetableModel.swift; sourceTree = "<group>"; };
+		B46014D72C84D4BF0053E05C /* BusTimetableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusTimetableViewModel.swift; sourceTree = "<group>"; };
 		B46EB10E2C82A9D100DF4AAA /* SearchBusesHomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBusesHomePageView.swift; sourceTree = "<group>"; };
 		B4AF037A2C80D93900286713 /* Bussin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bussin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4AF037D2C80D93900286713 /* BussinApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BussinApp.swift; sourceTree = "<group>"; };
@@ -63,6 +69,16 @@
 				B4E40BF22C849DC800FF2E14 /* LaunchScreenView.storyboard */,
 			);
 			path = LaunchScreen;
+			sourceTree = "<group>";
+		};
+		B46014D22C84D49D0053E05C /* BusTimetable */ = {
+			isa = PBXGroup;
+			children = (
+				B46014D32C84D4A70053E05C /* BusTimetableView.swift */,
+				B46014D52C84D4B30053E05C /* BusTimetableModel.swift */,
+				B46014D72C84D4BF0053E05C /* BusTimetableViewModel.swift */,
+			);
+			path = BusTimetable;
 			sourceTree = "<group>";
 		};
 		B4AF03712C80D93900286713 = {
@@ -115,6 +131,7 @@
 		B4AF03B52C80E5C100286713 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				B46014D22C84D49D0053E05C /* BusTimetable */,
 				B4141DB02C84989400EF38E5 /* LaunchScreen */,
 				B4CE9DDC2C824DC800C5C2AD /* SearchBusesHomePage */,
 				B4AF03B62C80E5D600286713 /* SupplyLocation */,
@@ -221,8 +238,11 @@
 				B4141DA92C83526800EF38E5 /* SearchBusesHomePageModel.swift in Sources */,
 				B4AF03C42C81DB3600286713 /* SupplyLocationModel.swift in Sources */,
 				B4141DAB2C83C86F00EF38E5 /* NearbyBusMapModel.swift in Sources */,
+				B46014D82C84D4BF0053E05C /* BusTimetableViewModel.swift in Sources */,
 				B4AF03802C80D93900286713 /* ContentView.swift in Sources */,
 				B4AF037E2C80D93900286713 /* BussinApp.swift in Sources */,
+				B46014D42C84D4A70053E05C /* BusTimetableView.swift in Sources */,
+				B46014D62C84D4B30053E05C /* BusTimetableModel.swift in Sources */,
 				B4141DAD2C83C9B300EF38E5 /* NearbyBusMapViewModel.swift in Sources */,
 				B4AF03BC2C80FC0600286713 /* SupplyLocationViewModel.swift in Sources */,
 				B4141DAF2C83CA2400EF38E5 /* NearbyBusMapView.swift in Sources */,

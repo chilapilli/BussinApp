@@ -17,9 +17,9 @@ struct NearbyBusMapView: View {
     @StateObject private var dataService = BusDataService()
     @State private var selectedBusID: String? = nil
     @State private var isFetchingVehicleInfo: Bool = true
-    @State var fetchingText: String = "Our scout is finding a bus there"
+    @State var fetchingText: String = "Our scout is finding buses there..."
     @State var fetchingIcon: String = "figure.run"
-    @State var noBusText: String = "Oops! Our scout didn't find any bus there 😥"
+    @State var noBusText: String = "Oops! Our scout didn't find any buses there 😥"
     @State var noBusIcon: String = "location.slash"
     
     init() {
@@ -50,11 +50,12 @@ struct NearbyBusMapView: View {
                             }) {
                                 if selectedBusID == bus.vehicleUniqueId {
                                     SelectedBusView(bus: bus)
+                                    
                                 } else {
                                     NonSelectedBusView(bus: bus)
                                 }
                             }
-                        }
+                        }.zIndex(10)
                     }
                 }
                 .mapStyle(.standard(elevation: .realistic, showsTraffic: true))
@@ -94,19 +95,15 @@ struct NearbyBusMapView: View {
                         CardViewWhenUnavailable(unavailableText: $noBusText, unavailableImageName: $noBusIcon)
                     } else {
                         
-                        
                         ForEach(dataService.buses, id: \.vehicleUniqueId) { bus in
                             let route: BusRoute = BusRoute(lineId: bus.publishedLineName, operatorName: "", operatorNoc: bus.operatorRouteRef)
-                            NavigationLink(destination: RouteDetailView(route: route)) {
+                            NavigationLink(destination: RouteDetailView(busRoute: route)) {
                                 BusCardView(bus: bus)
                                     .frame(width: UIScreen.main.bounds.width - 40, height: 150) // Define the width here
                                     .padding(.vertical, 10) // Add some vertical padding for better look
                             }
-                            
-//                            BusCardView(bus: bus)
-//                                .frame(width: UIScreen.main.bounds.width - 40, height: 150) // Define the width here
-//                                .padding(.vertical, 10) // Add some vertical padding for better look
                         }
+                        
                     }
                 }
                 .scrollTargetLayout()
@@ -195,7 +192,7 @@ struct SelectedBusView: View {
                 .foregroundColor(.blue)
             
             let route: BusRoute = BusRoute(lineId: bus.publishedLineName, operatorName: "", operatorNoc: bus.operatorRouteRef)
-            NavigationLink(destination: RouteDetailView(route: route)) {
+            NavigationLink(destination: RouteDetailView(busRoute: route)) {
                 VStack(spacing: 2) {
                     Text(bus.publishedLineName)
                         .font(.system(size: 13, weight: .bold))
@@ -228,38 +225,6 @@ struct SelectedBusView: View {
                 .background(Color.blue.opacity(0.8))
                 .cornerRadius(8)
             }
-            
-//            VStack(spacing: 2) {
-//                Text(bus.publishedLineName)
-//                    .font(.system(size: 13, weight: .bold))
-//                    .foregroundColor(.white)
-//                    .lineLimit(1)
-//                    .minimumScaleFactor(0.5)
-//                
-//                Text(bus.destinationName)
-//                    .font(.system(size: 10))
-//                    .foregroundColor(.white)
-//                    .lineLimit(1)
-//                    .minimumScaleFactor(0.5)
-//                
-//                if bus.recordedMinutesAgo == 0 {
-//                    Text("Now")
-//                        .font(.system(size: 8))
-//                        .foregroundColor(.white)
-//                        .lineLimit(1)
-//                        .minimumScaleFactor(0.5)
-//                    
-//                } else{
-//                    Text("\(bus.recordedMinutesAgo) minutes ago")
-//                        .font(.system(size: 8))
-//                        .foregroundColor(.white)
-//                        .lineLimit(1)
-//                        .minimumScaleFactor(0.5)
-//                }
-//            }
-//            .padding(6)
-//            .background(Color.blue.opacity(0.8))
-//            .cornerRadius(8)
         }
         .padding(4)
         .background(Color.white)

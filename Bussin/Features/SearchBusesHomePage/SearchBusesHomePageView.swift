@@ -124,29 +124,6 @@ struct SearchBusLocationHomepageView: View {
 }
 
 
-struct RouteDetailView: View {
-    let route: BusRoute
-    
-    var body: some View {
-        VStack {
-            Text("Route: \(route.lineId)")
-                .font(Font.custom("LexendDeca-Bold", size: 24))
-                .padding()
-            
-            Text("Operator: \(route.operatorName)")
-                .font(Font.custom("LexendDeca-Regular", size: 20))
-                .padding(.top, 10)
-            
-            Text("Operator NOC: \(route.operatorNoc)")
-                .font(Font.custom("LexendDeca-Regular", size: 20))
-                .padding(.top, 10)
-            
-            Spacer()
-        }
-        .navigationTitle("\(route.lineId) - \(route.operatorName)")
-    }
-}
-
 struct RecentQueryView: View {
     @AppStorage("RecentRoutes") private var recentRoutes: Data = Data()
     
@@ -226,7 +203,7 @@ struct RecentRouteCard: View {
             }
             Spacer()
 
-            NavigationLink(destination: RouteDetailView(route: route)) {
+            NavigationLink(destination: RouteDetailView(busRoute: route)) {
                 Image(systemName: "arrow.right.circle.fill")
                     .resizable()
                     .frame(width: 24, height: 24)
@@ -294,7 +271,7 @@ struct BusRoutesListView: View {
                 
                 // NavigationLink to handle navigation
                 NavigationLink(
-                    destination: RouteDetailView(route: selectedRoute ?? BusRoute(lineId: "", operatorName: "", operatorNoc: "")),
+                    destination: RouteDetailView(busRoute: selectedRoute ?? BusRoute(lineId: "", operatorName: "", operatorNoc: "")),
                     isActive: $isNavigationActive
                 ) {
                     EmptyView()
